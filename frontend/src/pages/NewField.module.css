@@ -1,0 +1,135 @@
+.page {
+  padding: 36px 40px;
+  max-width: 760px;
+  animation: fadeUp .4s ease both;
+}
+
+.back {
+  font-size: 14px;
+  color: var(--text-muted);
+  background: none;
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color var(--transition);
+}
+
+.back:hover { color: var(--leaf); }
+
+.title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.form { }
+
+.section {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.row:last-child { margin-bottom: 0; }
+
+.formGroup { display: flex; flex-direction: column; gap: 6px; }
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--text-muted);
+}
+
+.input {
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--text);
+  background: var(--white);
+  outline: none;
+  transition: border-color var(--transition);
+  font-family: var(--font-body);
+  width: 100%;
+}
+
+.input:focus {
+  border-color: var(--leaf);
+  box-shadow: 0 0 0 3px rgba(74,124,64,.1);
+}
+
+.inputErr { border-color: #e74c3c; }
+
+.err {
+  font-size: 12px;
+  color: #e74c3c;
+  margin-top: 2px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.cancelBtn {
+  padding: 12px 20px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--text-muted);
+  transition: all var(--transition);
+}
+
+.cancelBtn:hover { background: var(--mist); }
+
+.submitBtn {
+  padding: 12px 26px;
+  background: var(--leaf);
+  color: white;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--leaf-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(74,124,64,.3);
+}
+
+.submitBtn:disabled { opacity: .6; cursor: not-allowed; }
+
+@media (max-width: 640px) {
+  .page { padding: 24px 16px; }
+  .row { grid-template-columns: 1fr; }
+}

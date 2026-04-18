@@ -1,0 +1,281 @@
+.page {
+  padding: 36px 40px;
+  max-width: 1200px;
+  animation: fadeUp .4s ease both;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 16px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.15;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.addBtn {
+  padding: 11px 20px;
+  background: var(--leaf);
+  color: white;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.addBtn:hover {
+  background: var(--leaf-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(74,124,64,.3);
+}
+
+/* ── Stats ── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.statCard {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  border-left: 4px solid var(--accent);
+  transition: box-shadow var(--transition);
+}
+
+.statCard:hover { box-shadow: var(--shadow); }
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.statLabel {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-muted);
+}
+
+.statSub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ── Layout ── */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.card, .cardWide {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  overflow: hidden;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.seeAll {
+  font-size: 13px;
+  color: var(--leaf);
+  background: none;
+  font-weight: 500;
+  transition: opacity var(--transition);
+}
+
+.seeAll:hover { opacity: .7; }
+
+/* ── Agents ── */
+.agentList { display: flex; flex-direction: column; gap: 14px; }
+
+.agentRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.agentRow:last-child { border-bottom: none; padding-bottom: 0; }
+
+.agentAvatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--wheat);
+  color: var(--soil);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.agentInfo { flex: 1; min-width: 0; }
+
+.agentName { font-size: 14px; font-weight: 600; }
+
+.agentMeta { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+
+.riskPill {
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--status-risk-bg);
+  color: var(--status-risk);
+  padding: 3px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.agentFields { display: flex; gap: 5px; flex-wrap: wrap; }
+
+.agentDot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+}
+
+.dot_active    { background: var(--status-active); }
+.dot_atrisk    { background: var(--status-risk); }
+.dot_completed { background: var(--status-done); }
+
+/* ── Updates ── */
+.updateList { display: flex; flex-direction: column; gap: 0; }
+
+.updateRow {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background var(--transition);
+  border-radius: 6px;
+  padding-inline: 6px;
+}
+
+.updateRow:last-child { border-bottom: none; }
+.updateRow:hover { background: var(--mist); }
+
+.updateDot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--sprout);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.updateContent { flex: 1; min-width: 0; }
+
+.updateField {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.updateNote {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.updateMeta {
+  font-size: 11px;
+  color: var(--clay);
+  margin-top: 4px;
+  font-family: var(--font-mono);
+}
+
+/* ── Risk card ── */
+.riskCard {
+  border-color: #f5c6cb;
+  background: #fffbfb;
+}
+
+.riskGrid { display: flex; flex-direction: column; gap: 10px; }
+
+.riskRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: box-shadow var(--transition);
+}
+
+.riskRow:hover { box-shadow: var(--shadow-sm); }
+
+.riskName {
+  font-weight: 600;
+  font-size: 14px;
+  flex: 1;
+}
+
+.riskDetail {
+  display: flex;
+  gap: 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ── Field grid (agent dash) ── */
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.empty {
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 12px 0;
+}
+
+@media (max-width: 900px) {
+  .page { padding: 24px 20px; }
+  .statsGrid { grid-template-columns: repeat(2, 1fr); }
+  .twoCol { grid-template-columns: 1fr; }
+  .fieldGrid { grid-template-columns: 1fr; }
+}

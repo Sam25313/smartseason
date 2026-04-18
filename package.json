@@ -1,0 +1,21 @@
+{
+  "name": "smartseason",
+  "version": "1.0.0",
+  "description": "SmartSeason Field Monitoring System",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "build:frontend": "cd frontend && npm run build",
+    "seed:users": "cd backend && node seed-users.js"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "mysql2": "^3.6.5",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1"
+  }
+}
