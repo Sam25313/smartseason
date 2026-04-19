@@ -1,398 +1,177 @@
-# SmartSeason · Field Monitoring System
+# SmartSeason � Field Monitoring System
 
-A comprehensive full-stack web application designed for agricultural field monitoring and management. Track crop progress, manage field agents, and coordinate field operations across multiple locations.
+A full-stack agricultural field monitoring system with role-based access for Admins and Agents. This repo contains a React + Vite frontend and an Express + MySQL backend.
 
-## 🌟 Features
+## ?? What�s included
 
-- **Multi-Role Authentication**: Secure login system with Admin and Agent roles
-- **Field Management**: Create, view, and monitor agricultural fields with real-time status updates
-- **Agent Dashboard**: Field agents can view assigned fields and update progress
-- **Admin Dashboard**: Coordinators can manage fields, agents, and oversee operations
-- **Responsive Design**: Mobile-friendly interface built with modern CSS
-- **RESTful API**: Well-structured backend API with JWT authentication
-- **Database Integration**: MySQL database with efficient connection pooling
+- Admin and Agent user roles
+- JWT-based authentication
+- Field creation, viewing, updating, and deletion
+- Field update history tracking
+- Agent assignment and agent-only field visibility
+- React Context state management
+- Environment-driven API configuration for local and production deployments
 
-## 🏗️ Architecture
+## ?? Setup Instructions
 
-This project follows a monorepo structure with separate frontend and backend applications:
+### Prerequisites
 
-- **Frontend**: React 18 + Vite (Single Page Application)
-- **Backend**: Node.js + Express.js (REST API with JWT authentication)
-- **Database**: MySQL with mysql2 connection pooling
-- **Styling**: CSS Modules for component-scoped styling
+- Node.js 18+ (recommended)
+- MySQL 8+ or compatible
+- Git
 
-## 📋 Prerequisites
+### Install dependencies
 
-Before running this application, make sure you have the following installed:
-
-- **Node.js** (v16 or higher) - [Download](https://nodejs.org/)
-- **MySQL** (v8.0 or higher) - [Download](https://dev.mysql.com/downloads/mysql/)
-- **Git** - [Download](https://git-scm.com/)
-
-## 🚀 Quick Start
-
-1. **Clone the repository**
-   ```bash
-   git clone <your-github-repo-url>
-   cd smartseason
-   ```
-
-2. **Install all dependencies**
-   ```bash
-   npm run install:all
-   ```
-
-3. **Set up the database**
-   - Create a MySQL database named `smartseason`
-   - Run the SQL setup script (see Database Setup below)
-
-4. **Configure environment variables**
-   - Copy `backend/.env.example` to `backend/.env`
-   - Update database credentials and JWT secret
-
-5. **Start the application**
-   ```bash
-   npm run dev
-   ```
-
-The application will be available at:
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:3002
-
-## 🔧 Manual Setup
-
-### Backend Setup
+From the repository root:
 
 ```bash
-cd backend
-npm install
-cp .env.example .env  # Configure your environment variables
-npm run dev
+npm run install:all
 ```
 
-### Frontend Setup
+This installs dependencies for the root workspace, the frontend, and the backend.
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+### Backend environment
 
-### Database Setup
-
-1. Create a MySQL database:
-   ```sql
-   CREATE DATABASE smartseason;
-   ```
-
-2. Run the following SQL to create tables:
-   ```sql
-   -- Users table
-   CREATE TABLE users (
-     id INT AUTO_INCREMENT PRIMARY KEY,
-     email VARCHAR(255) UNIQUE NOT NULL,
-     password VARCHAR(255) NOT NULL,
-     role ENUM('admin', 'agent') NOT NULL,
-     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-   );
-
-   -- Fields table
-   CREATE TABLE fields (
-     id INT AUTO_INCREMENT PRIMARY KEY,
-     name VARCHAR(255) NOT NULL,
-     location VARCHAR(255),
-     crop_type VARCHAR(100),
-     status ENUM('planted', 'growing', 'harvested', 'maintenance') DEFAULT 'planted',
-     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-     agent_id INT,
-     FOREIGN KEY (agent_id) REFERENCES users(id)
-   );
-   ```
-
-3. Seed initial data:
-   ```sql
-   -- Insert admin user
-   INSERT INTO users (email, password, role) VALUES
-   ('admin@smartseason.com', '$2b$10$hashedpassword', 'admin');
-
-   -- Insert sample fields
-   INSERT INTO fields (name, location, crop_type, status) VALUES
-   ('North Field', 'Sector A', 'Corn', 'growing'),
-   ('South Field', 'Sector B', 'Wheat', 'planted');
-   ```
-
-## 🔐 Demo Login Credentials
-
-**Admin (Coordinator):**
-- Email: `admin@smartseason.com`
-- Password: `admin123`
-
-**Agent:**
-- Email: `agent@smartseason.com`
-- Password: `agent123`
-
-## 📁 Project Structure
-
-```
-smartseason/
-├── frontend/                 # React frontend application
-│   ├── public/              # Static assets
-│   ├── src/
-│   │   ├── components/      # Reusable UI components
-│   │   ├── pages/          # Page components
-│   │   ├── context/        # React context providers
-│   │   ├── data/           # Mock data and utilities
-│   │   └── hooks/          # Custom React hooks
-│   ├── package.json
-│   └── vite.config.js
-├── backend/                 # Express.js backend API
-│   ├── controllers/        # Route controllers
-│   ├── middleware/         # Express middleware
-│   ├── routes/            # API routes
-│   ├── config/            # Database and app configuration
-│   ├── server.js          # Main server file
-│   └── package.json
-├── package.json            # Root package.json with scripts
-└── README.md
-```
-
-## 🛠️ Tech Stack
-
-### Frontend
-- **React 18** - UI library
-- **Vite** - Build tool and dev server
-- **React Router** - Client-side routing
-- **CSS Modules** - Scoped styling
-- **date-fns** - Date formatting utilities
-
-### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **MySQL2** - Database driver
-- **JWT** - Authentication tokens
-- **bcrypt** - Password hashing
-- **CORS** - Cross-origin resource sharing
-
-### Database
-- **MySQL** - Relational database
-- **Connection Pooling** - Efficient database connections
-
-## 📡 API Endpoints
-
-### Authentication
-- `POST /api/auth/login` - User login
-- `POST /api/auth/logout` - User logout
-
-### Fields
-- `GET /api/fields` - Get all fields (admin) or assigned fields (agent)
-- `GET /api/fields/:id` - Get field details
-- `POST /api/fields` - Create new field (admin only)
-- `PUT /api/fields/:id` - Update field (admin only)
-
-### Users
-- `GET /api/users` - Get all users (admin only)
-- `GET /api/users/agents` - Get all agents (admin only)
-
-### Health Check
-- `GET /api/health` - API health status
-
-## 🔒 Environment Variables
-
-Create a `.env` file in the `backend` directory:
+Create or update `backend/.env` with:
 
 ```env
-# Database Configuration
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=your_password
 DB_NAME=smartseason
-
-# JWT Configuration
 JWT_SECRET=your_jwt_secret_key
-JWT_EXPIRES_IN=24h
-
-# Server Configuration
 PORT=3002
-NODE_ENV=development
 ```
 
-## 🧪 Development
+### Frontend environment
 
-### Available Scripts
+Create `frontend/.env` with:
 
-- `npm run dev` - Start both frontend and backend in development mode
-- `npm run install:all` - Install dependencies for all packages
-- `npm run build` - Build the frontend for production
-- `npm run server` - Start only the backend server
-
-### Code Quality
-
-- Use ESLint for JavaScript/React linting
-- Follow React best practices for component structure
-- Use meaningful commit messages
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Support
-
-For questions or support, please open an issue on GitHub or contact the development team.
-
----
-
-Built with ❤️ for efficient agricultural field management
-
-**Field Agents:**
-- Email: kofi@smartseason.com, nia@smartseason.com, kwame@smartseason.com
-- Password: agent123
-
-## Features
-
-### Admin (Coordinator)
-- Dashboard with field stats (active / at-risk / completed)
-- Agent overview with field health indicators
-- Recent activity feed
-- Full fields list with search, filter by status/agent, grid/list toggle
-- Add new fields and assign to agents
-- View and delete any field
-- Agents page with per-agent breakdown
-
-### Field Agent
-- Personal dashboard with assigned fields only
-- Log field updates (stage + observation notes)
-- Full update history timeline per field
-
-## Field Stages
-
-Fields progress through a simple lifecycle:
-
-1. **Planted** - Seeds or seedlings have been planted
-2. **Growing** - Crop is actively growing
-3. **Ready** - Crop is ready for harvest
-4. **Harvested** - Harvest has been completed
-
-## Status Logic
-
-| Status    | Condition                              |
-|-----------|----------------------------------------|
-| Active    | Updated within the last 7 days         |
-| At Risk   | No update in 7+ days                   |
-| Completed | Stage = Harvested                      |
-
-## Project Structure
-
-```
-smartseason/
-├── frontend/           # React application
-│   ├── public/         # Static assets
-│   ├── src/           # React source code
-│   │   ├── components/ # Reusable UI components
-│   │   ├── context/   # React context providers
-│   │   ├── data/      # Mock data (for reference)
-│   │   ├── pages/     # Page components
-│   │   └── ...
-│   ├── package.json   # Frontend dependencies
-│   └── vite.config.js # Vite configuration
-├── backend/           # Express API server
-│   ├── server.js      # Main server file
-│   ├── package.json   # Backend dependencies
-│   ├── .env           # Environment configuration
-│   └── utils/
-│       └── database.js # MySQL database operations
-├── package.json       # Root package.json with dev scripts
-└── README.md
+```env
+VITE_API_URL=http://localhost:3002
 ```
 
-## Tech Stack
+For production, set this to the deployed backend URL:
 
-- **Backend**: Node.js + Express with JWT authentication
-- **Database**: MySQL with connection pooling
-- **Frontend**: React 18 + Vite (modern, fast development)
-- **State Management**: React Context for auth and fields
-- **Routing**: React Router with role-based guards
-- **Styling**: CSS Modules for clean, maintainable styles
-- **Security**: Password hashing with bcrypt, JWT tokens
+```env
+VITE_API_URL=https://smartseason-3.onrender.com
+```
 
-## Database Setup
+### Database setup
 
-The application uses MySQL for data persistence. To set up:
+1. Create the `smartseason` database in MySQL.
+2. Run database initialization inside the backend application or using your own SQL client.
 
-1. **Install MySQL** and create a database called `smartseason`
-2. **Run the schema** from `database_schema.sql` to create tables
-3. **Configure environment** in `backend/.env`:
-   ```env
-   DB_HOST=localhost
-   DB_USER=root
-   DB_PASSWORD=your_mysql_password
-   DB_NAME=smartseason
-   ```
-4. **Start the backend** - it will automatically initialize with sample data
-
-📖 **Detailed Setup Guide**: See `MYSQL_SETUP.md` for complete MySQL installation and configuration instructions.
-
-## User Seeding
-
-To populate the database with initial users (admin and agents), run:
+To seed users:
 
 ```bash
 npm run seed:users
 ```
 
-This will create:
-- 1 Admin user (System Administrator)
-- 3 Agent users (Kofi Mensah, Nia Adeyemi, Kwame Asante)
+### Run locally
 
-## API Endpoints
+```bash
+npm run dev
+```
 
-The backend provides RESTful endpoints:
-- `POST /api/auth/login` → User authentication
-- `GET /api/auth/me` → Get current user
-- `GET /api/fields` → List fields (filtered by role)
-- `POST /api/fields` → Create field (admin only)
-- `PUT /api/fields/:id` → Update field
-- `DELETE /api/fields/:id` → Delete field (admin only)
-- `GET /api/fields/:id/updates` → Get field updates
-- `POST /api/updates` → Create field update
-- `GET /api/agents` → List agents (admin only)
+This starts:
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:3002`
 
-## Design Decisions
+## ??? Available scripts
 
-### Authentication & Security
-- **JWT-based auth** with secure password hashing (bcrypt)
-- **Role-based access control** (admin vs agent permissions)
-- **Token persistence** in localStorage with automatic verification
-- **Admin credentials hidden** from public README for security
+From the root:
 
-### Database Design
-- **MySQL database** with proper relational structure
-- **Foreign key relationships** between users, fields, and updates
-- **Connection pooling** for optimal performance
-- **Hashed passwords** stored securely with bcrypt
-- **Automatic seeding** of admin and agent accounts
-- **Production-ready** with proper indexing and constraints
+- `npm run dev` � run frontend and backend together
+- `npm run install:all` � install dependencies for root, frontend, and backend
+- `npm run build:frontend` � build React frontend
+- `npm run seed:users` � seed backend users
 
-### API Design
-- **RESTful endpoints** with consistent error handling
-- **JWT middleware** for protected routes
-- **Role-based filtering** (agents only see their fields)
-- **Real-time status computation** on field queries
+Backend only (`backend/package.json`):
+- `npm run dev` � start backend server
+- `npm start` � start backend server
 
-### Frontend Architecture
-- **Context-based state** for auth and data management
-- **API integration** with error handling and loading states
-- **Responsive design** with CSS Modules for maintainability
-- **Optimistic updates** for better user experience
+Frontend only (`frontend/package.json`):
+- `npm run dev` � start Vite dev server
+- `npm run build` � build frontend for production
+- `npm run preview` � preview production build locally
 
-- **CSS Modules** over Tailwind — keeps styles scoped and portable without a build plugin
-- **Context over Redux** — state is simple (2 collections); no need for a store
-- **Mock data** — fully functional with realistic seed data so you can demo immediately
-- **Role-based routing** — `RequireAdmin` wrapper prevents agents accessing admin routes
+## ?? Project structure
+
+```
+smartseason/
++-- backend/                 # Express backend API
+�   +-- middleware/         # Auth and request middleware
+�   +-- routes/             # API endpoints
+�   +-- utils/              # DB and helper logic
+�   +-- server.js           # Backend entrypoint
+�   +-- package.json
+�   +-- .env                # Local backend configuration
++-- frontend/                # React frontend app
+�   +-- public/
+�   +-- src/
+�   �   +-- components/
+�   �   +-- context/
+�   �   +-- hooks/
+�   �   +-- pages/
+�   �   +-- services/
+�   �   +-- utils/
+�   +-- package.json
+�   +-- vite.config.js
++-- package.json            # Root workspace scripts
++-- README.md
+```
+
+## ?? API Endpoints
+
+### Authentication
+- `POST /api/auth/login` � log in and receive JWT
+- `GET /api/auth/me` � get current user profile
+
+### Fields
+- `GET /api/fields` � list fields (admin sees all; agent sees assigned fields)
+- `GET /api/fields/:id/updates` � field updates
+- `POST /api/fields` � create field
+- `PUT /api/fields/:id` � update field
+- `DELETE /api/fields/:id` � delete field
+
+### Updates
+- `POST /api/updates` � create field update
+
+### Agents
+- `GET /api/agents` � list agents
+
+### Health
+- `GET /api/health` � check server status
+
+## ?? Design decisions
+
+- **Monorepo layout**: separates frontend and backend while keeping root scripts for easy local development.
+- **React + Vite**: fast development experience and optimized production builds.
+- **Express + JWT**: lightweight backend with token-based auth and clean API routing.
+- **MySQL via `mysql2`**: relational schema fits users, fields, and update history.
+- **React Context**: handles auth and field state without a larger state library.
+- **Env-driven API URL**: frontend is configured with `VITE_API_URL`, allowing different backend hosts for local vs production.
+- **CORS support**: backend is configured to allow cross-origin requests from allowed frontend origins.
+- **Safe response handling**: frontend includes JSON parsing safeguards for unexpected server responses.
+
+## ?? Assumptions
+
+- There are only two roles: `admin` and `agent`.
+- Agents only access their assigned fields; admins manage all fields.
+- JWT tokens last 24 hours; refresh tokens are not implemented.
+- Passwords are stored hashed with `bcryptjs`.
+- The app targets small to medium field tracking use cases.
+- Local development uses `http://localhost:3002` for the API and `http://localhost:5173` for the frontend.
+- Production deployments should set `VITE_API_URL` to the live backend hostname.
+
+## ? Notes
+
+- Keep secret values out of version control.
+- Use a strong `JWT_SECRET` in production.
+- If deploying to Render or Vercel, ensure frontend `VITE_API_URL` points to the backend URL.
+- If backend routes change, update the frontend API builder accordingly.
+
+---
+
+If you want, I can also add a deployment section for Render and Vercel.
