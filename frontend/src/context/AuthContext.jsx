@@ -2,7 +2,16 @@ import { createContext, useContext, useState, useEffect } from 'react'
 
 const AuthContext = createContext(null)
 
-const API_BASE = `${import.meta.env.VITE_API_URL}/api`
+const API_BASE = `${import.meta.env.VITE_API_URL || ''}/api`
+
+async function parseJson(response) {
+  const text = await response.text()
+  try {
+    return JSON.parse(text)
+  } catch (err) {
+    throw new Error(`Expected JSON response but got: ${text.slice(0,200)}`)
+  }
+}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
@@ -17,8 +26,8 @@ export function AuthProvider({ children }) {
       fetch(`${API_BASE}/auth/me`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
-      .then(res => res.json())
-      .then(data => {
+      .then(async res => {
+        const data = await parseJson(res)
         if (data.error) {
           localStorage.removeItem('token')
         } else {
@@ -42,7 +51,7 @@ export function AuthProvider({ children }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       })
-      const data = await res.json()
+      const data = await parseJson(res)
       if (!res.ok) throw new Error(data.error)
       
       localStorage.setItem('token', data.token)

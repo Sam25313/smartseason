@@ -3,7 +3,16 @@ import { useAuth } from './AuthContext'
 
 const FieldsContext = createContext(null)
 
-const API_BASE = 'http://localhost:3002/api'
+const API_BASE = `${import.meta.env.VITE_API_URL || ''}/api`
+
+async function parseJson(response) {
+  const text = await response.text()
+  try {
+    return JSON.parse(text)
+  } catch (err) {
+    throw new Error(`Expected JSON response but got: ${text.slice(0,200)}`)
+  }
+}
 
 export function FieldsProvider({ children }) {
   const { user } = useAuth()
@@ -29,7 +38,7 @@ export function FieldsProvider({ children }) {
   async function loadAgents() {
     try {
       const res = await fetch(`${API_BASE}/agents`, { headers: getAuthHeaders() })
-      const data = await res.json()
+      const data = await parseJson(res)
       if (res.ok) {
         setAgents(data)
       }
@@ -50,9 +59,8 @@ export function FieldsProvider({ children }) {
     setLoading(true)
     try {
       const res = await fetch(`${API_BASE}/fields`, { headers: getAuthHeaders() })
-      const data = await res.json()
+      const data = await parseJson(res)
       if (res.ok) {
-        setFields(data)
       }
     } catch (err) {
       console.error('Failed to load fields:', err)
@@ -68,7 +76,7 @@ export function FieldsProvider({ children }) {
         headers: getAuthHeaders(),
         body: JSON.stringify(fieldData)
       })
-      const data = await res.json()
+      const data = await parseJson(res)
       if (res.ok) {
         setFields(prev => [...prev, data])
         return data
@@ -87,7 +95,7 @@ export function FieldsProvider({ children }) {
         headers: getAuthHeaders(),
         body: JSON.stringify(changes)
       })
-      const data = await res.json()
+      const data = await parseJson(res)
       if (res.ok) {
         setFields(prev => prev.map(f => f.id === id ? data : f))
         return data
@@ -109,7 +117,7 @@ export function FieldsProvider({ children }) {
         setFields(prev => prev.filter(f => f.id !== id))
         setUpdates(prev => prev.filter(u => u.field_id !== id))
       } else {
-        const data = await res.json()
+        const data = await parseJson(res)
         throw new Error(data.error)
       }
     } catch (err) {
@@ -125,7 +133,7 @@ export function FieldsProvider({ children }) {
         headers: getAuthHeaders(),
         body: JSON.stringify(updateData)
       })
-      const data = await res.json()
+      const data = await parseJson(res)
       if (res.ok) {
         setUpdates(prev => [data, ...prev])
         // Update the field in the list
@@ -146,7 +154,7 @@ export function FieldsProvider({ children }) {
   async function getAgents() {
     try {
       const res = await fetch(`${API_BASE}/agents`, { headers: getAuthHeaders() })
-      const data = await res.json()
+      const data = await parseJson(res)
       if (res.ok) {
         return data
       }
