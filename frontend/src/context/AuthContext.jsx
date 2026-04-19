@@ -5,6 +5,8 @@ const AuthContext = createContext(null)
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, '') || ''
 const API_BASE = `${API_URL}/api`
 
+const buildUrl = endpoint => `${API_BASE.replace(/\/+$/, '')}/${endpoint.replace(/^\/+/, '')}`
+
 async function parseJson(response) {
   const text = await response.text()
   try {
@@ -24,7 +26,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('token')
     if (token) {
       // Verify token with server
-      fetch(`${API_BASE}/auth/me`, {
+      fetch(buildUrl('/auth/me'), {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       .then(async res => {
@@ -47,7 +49,7 @@ export function AuthProvider({ children }) {
   async function login(email, password) {
     setError('')
     try {
-      const res = await fetch(`${API_BASE}/auth/login`, {
+      const res = await fetch(buildUrl('/auth/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

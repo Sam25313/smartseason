@@ -1,5 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, '') || ''
 const API_BASE = `${API_URL}/api`
+const buildUrl = endpoint => `${API_BASE.replace(/\/+$/, '')}/${endpoint.replace(/^\/+/, '')}`
 
 class ApiService {
   constructor() {
@@ -15,7 +16,7 @@ class ApiService {
   }
 
   async request(endpoint, options = {}) {
-    const url = `${this.baseURL}${endpoint}`
+    const url = buildUrl(endpoint)
     const config = {
       headers: this.getAuthHeaders(),
       ...options
@@ -33,7 +34,7 @@ class ApiService {
 
   // Auth endpoints
   async login(credentials) {
-    const response = await fetch(`${this.baseURL}/auth/login`, {
+    const response = await fetch(buildUrl('/auth/login'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credentials)

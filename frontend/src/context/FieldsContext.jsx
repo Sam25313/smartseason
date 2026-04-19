@@ -6,6 +6,8 @@ const FieldsContext = createContext(null)
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, '') || ''
 const API_BASE = `${API_URL}/api`
 
+const buildUrl = endpoint => `${API_BASE.replace(/\/+$/, '')}/${endpoint.replace(/^\/+/, '')}`
+
 async function parseJson(response) {
   const text = await response.text()
   try {
@@ -38,7 +40,7 @@ export function FieldsProvider({ children }) {
 
   async function loadAgents() {
     try {
-      const res = await fetch(`${API_BASE}/agents`, { headers: getAuthHeaders() })
+      const res = await fetch(buildUrl('/agents'), { headers: getAuthHeaders() })
       const data = await parseJson(res)
       if (res.ok) {
         setAgents(data)
@@ -59,7 +61,7 @@ export function FieldsProvider({ children }) {
   async function loadFields() {
     setLoading(true)
     try {
-      const res = await fetch(`${API_BASE}/fields`, { headers: getAuthHeaders() })
+      const res = await fetch(buildUrl('/fields'), { headers: getAuthHeaders() })
       const data = await parseJson(res)
       if (res.ok) {
         setFields(data)
@@ -73,7 +75,7 @@ export function FieldsProvider({ children }) {
 
   async function addField(fieldData) {
     try {
-      const res = await fetch(`${API_BASE}/fields`, {
+      const res = await fetch(buildUrl('/fields'), {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(fieldData)
@@ -92,7 +94,7 @@ export function FieldsProvider({ children }) {
 
   async function updateField(id, changes) {
     try {
-      const res = await fetch(`${API_BASE}/fields/${id}`, {
+      const res = await fetch(buildUrl(`/fields/${id}`), {
         method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify(changes)
@@ -111,7 +113,7 @@ export function FieldsProvider({ children }) {
 
   async function deleteField(id) {
     try {
-      const res = await fetch(`${API_BASE}/fields/${id}`, {
+      const res = await fetch(buildUrl(`/fields/${id}`), {
         method: 'DELETE',
         headers: getAuthHeaders()
       })
@@ -130,7 +132,7 @@ export function FieldsProvider({ children }) {
 
   async function addUpdate(updateData) {
     try {
-      const res = await fetch(`${API_BASE}/updates`, {
+      const res = await fetch(buildUrl('/updates'), {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(updateData)
@@ -155,7 +157,7 @@ export function FieldsProvider({ children }) {
 
   async function getAgents() {
     try {
-      const res = await fetch(`${API_BASE}/agents`, { headers: getAuthHeaders() })
+      const res = await fetch(buildUrl('/agents'), { headers: getAuthHeaders() })
       const data = await parseJson(res)
       if (res.ok) {
         return data
@@ -169,7 +171,7 @@ export function FieldsProvider({ children }) {
 
   async function getFieldUpdates(fieldId) {
     try {
-      const res = await fetch(`${API_BASE}/fields/${fieldId}/updates`, { headers: getAuthHeaders() })
+      const res = await fetch(buildUrl(`/fields/${fieldId}/updates`), { headers: getAuthHeaders() })
       const data = await parseJson(res)
       if (res.ok) {
         return data
