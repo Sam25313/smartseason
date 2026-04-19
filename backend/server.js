@@ -17,7 +17,7 @@ app.use(cors(
   origin: [
     'http://localhost:5173',
     'http://localhost:5174',
-    'https://smartseason-five.vercel.app/'  
+    'https://smartseason-five.vercel.app'  
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -38,6 +38,10 @@ app.use('/api/agents', authenticateToken, agentRoutes)
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() })
+})
+
+app.get('/', (req, res) => {
+  res.json({ message: 'SmartSeason API is running' })
 })
 
 app.listen(PORT, () => {
