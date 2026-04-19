@@ -2,7 +2,8 @@ import { createContext, useContext, useState, useEffect } from 'react'
 
 const AuthContext = createContext(null)
 
-const API_BASE = `${import.meta.env.VITE_API_URL || ''}/api`
+const API_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, '') || ''
+const API_BASE = `${API_URL}/api`
 
 async function parseJson(response) {
   const text = await response.text()

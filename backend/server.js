@@ -12,18 +12,12 @@ const app = express()
 const PORT = process.env.PORT || 3002
 
 // Middleware
-app.use(cors(
-  {
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'https://smartseason-five.vercel.app'  
-  ],
+app.use(cors({
+  origin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
-}
-))
+}))
 app.use(express.json())
 
 // Initialize database
