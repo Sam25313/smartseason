@@ -78,7 +78,7 @@ This starts:
 - Frontend: `http://localhost:5173`
 - Backend: `http://localhost:3002`
 
-## ??? Available scripts
+## Available scripts
 
 From the root:
 
